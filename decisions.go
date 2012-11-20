@@ -4,13 +4,13 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/bmizerany/pat"
+	"github.com/darkhelmet/env"
 	"github.com/jmcvetta/randutil"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"github.com/darkhelmet/env"
-	"io/ioutil"
-	"encoding/json"
 )
 
 type payload struct {
@@ -39,6 +39,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	}
 	var pl payload
 	err = json.Unmarshal(body, &pl)
+	log.Println(pl)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -74,7 +75,7 @@ func main() {
 	// Start Webserver
 	//
 	log.Println("Starting webserver on port " + port + "...")
-	err := http.ListenAndServe(":" + port, nil)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Panicln(err)
 	}
