@@ -64,13 +64,14 @@ func main() {
 	// Configuration
 	//
 	port := env.StringDefault("PORT", "9000")
-	// pwd := env.StringDefault("PWD", "/app")
+	pwd := env.StringDefault("PWD", "/app")
 	//
 	// Routing
 	//
 	mux := pat.New()
-	mux.Post("/v1/decide", http.HandlerFunc(Decide))
-	http.Handle("/", mux)
+	mux.Post("/decide", http.HandlerFunc(Decide))
+	http.Handle("/v1/", http.StripPrefix("/v1", mux))
+	http.Handle("/", http.FileServer(http.Dir(pwd + "/angular/app")))
 	//
 	// Start Webserver
 	//
