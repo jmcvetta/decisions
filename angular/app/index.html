@@ -24,7 +24,7 @@
 		website can make all your decisions for you!   
 	</p>
 	<p>	
-		Just describe your quandry, supply some possible answers, and click
+		Just describe your quandary, supply some possible answers, and click
 		<i>Decide!</i>
 	</p>
 	
@@ -37,7 +37,7 @@
 	  		Quandary
 	  	</label>
 	  	<div class="controls">
-		    <input id="quandary" type="text" ng-model="decision.question" /><br />
+		    <input id="quandary" type="text" ng-model="decision.quandary" /><br />
 	  	</div>
   	</div>
     <div ng-repeat="choice in decision.choices">
@@ -50,8 +50,8 @@
 	    	</div>
     	</div>
     </div>
-    <button ng-click="reset()">RESET</button>
-    <button ng-click="update(decision)">SAVE</button>
+    <button ng-click="update(decision)" class="btn btn-primary">Decide!</button>
+    <button ng-click="reset()" class="btn pull-right" >Reset Form</button>
   </form>
   <pre>form = {{decision | json}}</pre>
   <pre>master = {{master | json}}</pre>

@@ -1,7 +1,8 @@
 function Decision($scope) {
   $scope.master = {
-		  question: "",
+		  quandary: "",
 		  choices:  [
+		             {"text": ""},
 		             {"text": ""},
 		             {"text": ""}
 		             ]
