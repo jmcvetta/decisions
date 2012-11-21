@@ -13,6 +13,7 @@ import (
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
+	"time"
 	// "labix.org/v2/mgo/bson"
 
 )
@@ -29,9 +30,11 @@ type DecisionResponse struct {
 }
 
 type Decision struct {
-	Quandary string
-	Choices  []string
-	Winner string
+	Quandary   string
+	Choices    []string
+	Winner     string
+	RemoteAddr string
+	Timestamp  time.Time
 }
 
 // Decide receives a JSON payload containing several strings, and returns a JSON
@@ -85,9 +88,11 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	//
 	c := db.C("quandaries")
 	d := Decision{
-		Quandary: dreq.Quandary,
-		Choices: dreq.Choices,
-		Winner: winner,
+		Quandary:   dreq.Quandary,
+		Choices:    dreq.Choices,
+		Winner:     winner,
+		RemoteAddr: req.RemoteAddr,
+		Timestamp:  time.Now(),
 	}
 	err = c.Insert(&d)
 	if err != nil {
