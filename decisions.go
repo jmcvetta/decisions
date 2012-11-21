@@ -13,9 +13,8 @@ import (
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
+	"strings"
 	"time"
-	// "labix.org/v2/mgo/bson"
-
 )
 
 var db *mgo.Database
@@ -91,7 +90,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		Quandary:   dreq.Quandary,
 		Choices:    dreq.Choices,
 		Winner:     winner,
-		RemoteAddr: req.RemoteAddr,
+		RemoteAddr: strings.Split(req.RemoteAddr, ":")[0],
 		Timestamp:  time.Now(),
 	}
 	err = c.Insert(&d)
