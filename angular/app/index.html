@@ -30,7 +30,7 @@
 	
 </div>
 
-<div ng-controller="Decision">
+<div ng-controller="DecisionCtrl">
   <form novalidate class="form-horizontal">
   	<div class="control-group">
 	  	<label class="control-label" for="quandary">
@@ -50,9 +50,11 @@
 	    	</div>
     	</div>
     </div>
-    <button ng-click="update(decision)" class="btn btn-primary btn-large">Decide!</button>
+    <button ng-click="decide(decision)" class="btn btn-primary btn-large">Decide!</button>
     <button ng-click="reset()" class="btn pull-right" >Reset Form</button>
   </form>
+  <pre>data = {{data | json}}</pre>
+  <pre>winner = {{winner | json}}</pre>
   <pre>form = {{decision | json}}</pre>
   <pre>master = {{master | json}}</pre>
 </div>

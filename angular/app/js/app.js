@@ -1,4 +1,4 @@
-function Decision($scope) {
+function DecisionCtrl($scope, $http) {
   $scope.master = {
 		  quandary: "",
 		  choices:  [
@@ -17,4 +17,22 @@ function Decision($scope) {
   };
  
   $scope.reset();
+  
+  $scope.winner = null;
+  
+  $scope.decide = function(decision) {
+	  $scope.master= angular.copy(decision);
+	  $scope.code = null;
+	  $scope.data = null;
+	  $http.post("/v1/decide", $scope.master).
+	  	success(function(data, status){
+	  		$scope.data = data;
+	  		$scope.winner = data["Decision"];
+	  		$scope.status = status;
+	  	}).
+	  error(function(data, status) {
+	  		$scope.data = data || "Request Failed";
+	  		$scope.status = status;
+	  });
+  };
 }
