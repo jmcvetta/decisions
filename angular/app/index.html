@@ -29,12 +29,26 @@
 	</p>
 	
 </div>
+
 <div ng-controller="Decision">
-  <form novalidate class="simple-form">
-    Question: <input type="text" ng-model="decision.question" /><br />
+  <form novalidate class="form-horizontal">
+  	<div class="control-group">
+	  	<label class="control-label" for="quandary">
+	  		Quandary
+	  	</label>
+	  	<div class="controls">
+		    <input id="quandary" type="text" ng-model="decision.question" /><br />
+	  	</div>
+  	</div>
     <div ng-repeat="choice in decision.choices">
-    	
-    	Choice {{ $index + 1 }}: <input type="text" ng-model="choice.text" /><br />
+    	<div class="control-group">
+	    	<label class="control-label" for="choice{{$index+1}}">
+	    		Possible Solution {{ $index + 1 }}
+	    	</label>
+	    	<div class="controls">
+		    	<input type="text" ng-model="choice.text" /><br />
+	    	</div>
+    	</div>
     </div>
     <button ng-click="reset()">RESET</button>
     <button ng-click="update(decision)">SAVE</button>
