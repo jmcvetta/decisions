@@ -25,12 +25,13 @@ type DecisionRequest struct {
 }
 
 type DecisionResponse struct {
-	Winner string
+	Decision string
 }
 
 type Decision struct {
-	DecisionRequest
-	DecisionResponse
+	Quandary string
+	Choices  []string
+	Winner string
 }
 
 // Decide receives a JSON payload containing several strings, and returns a JSON
@@ -79,12 +80,15 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	dres := DecisionResponse{winner}
 	//
 	// Save to Database
 	//
 	c := db.C("quandaries")
-	d := Decision{dreq, dres}
+	d := Decision{
+		Quandary: dreq.Quandary,
+		Choices: dreq.Choices,
+		Winner: winner,
+	}
 	err = c.Insert(&d)
 	if err != nil {
 		msg := "MongoDB Error: " + err.Error()
@@ -94,6 +98,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	//
 	// Generate response
 	//
+	dres := DecisionResponse{winner}
 	blob, err := json.Marshal(dres)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -121,6 +126,10 @@ func main() {
 	}
 	defer session.Close()
 	db = session.DB("")
+	_, err = db.CollectionNames()
+	if err != nil && err.Error() == "db name can't be empty" {
+		db = session.DB("decisions")
+	}
 	//
 	// Routing
 	//
