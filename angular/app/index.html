@@ -16,7 +16,7 @@
 	
 	<br />
 	<p>
-		Need to make an import decision, but just can't make up your mind?  
+		Need to make an important decision, but just can't make up your mind?  
 	</p>
 	<p>
 		Now, with the magic of a cryptographically secure pseudorandom number
@@ -37,7 +37,7 @@
 	  		Quandary
 	  	</label>
 	  	<div class="controls">
-		    <input id="quandary" type="text" ng-model="decision.quandary" /><br />
+		    <textarea id="quandary" ng-model="decision.quandary"></textarea>
 	  	</div>
   	</div>
     <div ng-repeat="choice in decision.choices">
@@ -50,7 +50,7 @@
 	    	</div>
     	</div>
     </div>
-    <button ng-click="update(decision)" class="btn btn-primary">Decide!</button>
+    <button ng-click="update(decision)" class="btn btn-primary btn-large">Decide!</button>
     <button ng-click="reset()" class="btn pull-right" >Reset Form</button>
   </form>
   <pre>form = {{decision | json}}</pre>
