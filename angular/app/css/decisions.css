@@ -2,5 +2,15 @@
 
 
 body {
-	background-image: url("../img/sf-fog.jpg")
+	background-image: url("../img/sf-fog.jpg");
 }
+
+.container {
+	padding-top: 3em;
+}
+
+.decisions {
+	background-color: rgba(255,255,255,0.5);
+	padding: 3em;
+}
+

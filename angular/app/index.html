@@ -7,11 +7,28 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<div class="span6 offset3">
+  			<div class="span8 offset2 decisions">
   				
-<h1>
-	Ask a Question
-</h1>
+<div class="hero-unit">
+	<h1>
+		Decisions, decisions...
+	</h1>
+	
+	<br />
+	<p>
+		Need to make an import decision, but just can't make up your mind?  
+	</p>
+	<p>
+		Now, with the magic of a cryptographically secure pseudorandom number
+		generator<sup><a href="http://golang.org/pkg/crypto/rand/">*</a></sup>, this
+		website can make all your decisions for you!   
+	</p>
+	<p>	
+		Just describe your quandry, supply some possible answers, and click
+		<i>Decide!</i>
+	</p>
+	
+</div>
 <div ng-controller="Decision">
   <form novalidate class="simple-form">
     Question: <input type="text" ng-model="decision.question" /><br />
