@@ -19,9 +19,13 @@ import (
 
 var db *mgo.Database
 
+type Choice struct {
+	Text string
+}
+
 type DecisionRequest struct {
 	Quandary string
-	Choices  []string
+	Choices  []Choice
 }
 
 type DecisionResponse struct {
@@ -63,8 +67,8 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	//
 	validChoices := []string{}
 	for _, choice := range dreq.Choices {
-		if choice != "" {
-			validChoices = append(validChoices, choice)
+		if choice.Text != "" {
+			validChoices = append(validChoices, choice.Text)
 		}
 	}
 	if len(validChoices) < 1 {
@@ -88,7 +92,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	c := db.C("quandaries")
 	d := Decision{
 		Quandary:  dreq.Quandary,
-		Choices:   dreq.Choices,
+		Choices:   validChoices,
 		Winner:    winner,
 		Ip:        strings.Split(req.RemoteAddr, ":")[0],
 		Timestamp: time.Now(),
