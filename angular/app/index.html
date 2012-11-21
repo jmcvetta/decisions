@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app>
+  <head>
+  	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  	<link href="css/decisions.css" rel="stylesheet"></link>
+  </head>
+  <body>
+  	<div class="container">
+  		<div class="row">
+  			<div class="span6 offset3">
+  				
+<h1>
+	Ask a Question
+</h1>
+<div ng-controller="Decision">
+  <form novalidate class="simple-form">
+    Question: <input type="text" ng-model="decision.question" /><br />
+    <div ng-repeat="choice in decision.choices">
+    	
+    	Choice {{ $index + 1 }}: <input type="text" ng-model="choice.text" /><br />
+    </div>
+    <button ng-click="reset()">RESET</button>
+    <button ng-click="update(decision)">SAVE</button>
+  </form>
+  <pre>form = {{decision | json}}</pre>
+  <pre>master = {{master | json}}</pre>
+</div>
+
+  			</div>
+  		</div>
+  	</div>
+  	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
