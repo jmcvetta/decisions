@@ -9,7 +9,7 @@ body {
 	padding-top: 3em;
 }
 
-.decisions {
+.whitebg {
 	background-color: rgba(238,238,238,0.7);
 	padding: 3em;
 }
@@ -18,3 +18,7 @@ body {
 	background-color: rgba(238,238,238, 0.4);
 }
 
+#winner-error {
+	padding: 10px;
+	background-color: white;
+}

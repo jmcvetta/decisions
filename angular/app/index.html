@@ -10,62 +10,91 @@
   		src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" 
   		alt="Fork me on GitHub">
 	</a>
-  	<div class="container">
+  	<div class="container" ng-controller="DecisionCtrl">
   		<div class="row">
-  			<div class="span8 offset2 decisions">
+  			<div class="span8 offset2 whitebg">
   				
-<div class="hero-unit">
-	<h1>
-		Decisions, decisions...
-	</h1>
-	
-	<br />
-	<p>
-		Need to make an important decision, but just can't make up your mind?  
-	</p>
-	<p>
-		Now, with the magic of a cryptographically secure pseudorandom number
-		generator<sup><a href="http://golang.org/pkg/crypto/rand/">*</a></sup>, this
-		website can make all your decisions for you!   
-	</p>
-	<p>	
-		Just describe your quandary, supply some possible answers, and click
-		<i>Decide!</i>
-	</p>
-	
-</div>
-
-<div ng-controller="DecisionCtrl">
-  <form novalidate class="form-horizontal">
-  	<div class="control-group">
-	  	<label class="control-label" for="quandary">
-	  		Quandary
-	  	</label>
-	  	<div class="controls">
-		    <textarea id="quandary" ng-model="decision.quandary"></textarea>
-	  	</div>
-  	</div>
-    <div ng-repeat="choice in decision.choices">
-    	<div class="control-group">
-	    	<label class="control-label" for="choice{{$index+1}}">
-	    		Possible Solution {{ $index + 1 }}
-	    	</label>
-	    	<div class="controls">
-		    	<input type="text" ng-model="choice.text" /><br />
-	    	</div>
-    	</div>
-    </div>
-    <button ng-click="decide(decision)" class="btn btn-primary btn-large">Decide!</button>
-    <button ng-click="reset()" class="btn pull-right" >Reset Form</button>
-  </form>
-  <pre>data = {{data | json}}</pre>
-  <pre>winner = {{winner | json}}</pre>
-  <pre>form = {{decision | json}}</pre>
-  <pre>master = {{master | json}}</pre>
-</div>
-
-  			</div>
-  		</div>
+				<div class="hero-unit">
+					<h1>
+						Decisions, decisions...
+					</h1>
+					<br />
+					<p>
+						Need to make an important decision, but just can't make up your mind?  
+					</p>
+					<p>
+						Now, with the magic of a cryptographically secure pseudorandom number
+						generator<sup><a href="http://golang.org/pkg/crypto/rand/">*</a></sup>, this
+						website can make all your decisions for you!   
+					</p>
+					<p>	
+						Just describe your quandary, supply some possible answers, and click
+						<i>Decide!</i>
+					</p>
+				</div>
+				
+			  <form novalidate class="form-horizontal">
+				<div class="row">
+						<div class="span4 form-box">
+		
+						  	<div class="control-group">
+							  	<label class="control-label" for="quandary">
+							  		Quandary
+							  	</label>
+							  	<div class="controls">
+								    <textarea id="quandary" ng-model="decision.quandary"></textarea>
+							  	</div>
+						  	</div>
+						    <div ng-repeat="choice in decision.choices">
+						    	<div class="control-group">
+							    	<label class="control-label" for="choice{{$index+1}}">
+							    		Possible Solution {{ $index + 1 }}
+							    	</label>
+							    	<div class="controls">
+								    	<input type="text" ng-model="choice.text" /><br />
+							    	</div>
+						    	</div>
+						    </div>
+			  			</div>
+			  			
+						<div class="span3 offset1">
+							<div id="winner-error" ng-show="winner||error">
+							  <div ng-show="winner" id="winner">
+							  	<h1>
+							  		Decision:
+							  	</h1>
+							  	<p>
+							  		{{ winner }}
+							  	</p>
+							  </div>
+							  <div ng-show="error">
+							  	<h1>
+							  		Error:
+							  	</h1>
+							  	<p>
+							  		{{ error }}
+							  	</p>
+							  </div>
+								
+							</div>
+			  			</div>
+		
+		  		</div>
+		  		<div class="row">
+					<div class="span4 form-box">
+					    <button ng-click="decide(decision)" class="btn btn-primary btn-large pull-right">
+					    	Decide!
+				    	</button>
+					</div>
+					<div class="span3 offset1">
+					    <button ng-click="reset()" class="btn pull-right" >
+					    	Reset
+				    	</button>
+					</div>
+		  			
+		  		</div>
+		  </form>
+	  		</div>
   	</div>
   	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>

@@ -7,6 +7,9 @@ function DecisionCtrl($scope, $http) {
 		             {"text": ""}
 		             ]
   };
+  
+  $scope.orig = angular.copy($scope.master);
+  
  
   $scope.update = function(decision) {
     $scope.master= angular.copy(decision);
@@ -14,6 +17,8 @@ function DecisionCtrl($scope, $http) {
  
   $scope.reset = function() {
     $scope.decision = angular.copy($scope.master);
+    $scope.winner = null;
+	$scope.error = null;
   };
  
   $scope.reset();
@@ -21,17 +26,15 @@ function DecisionCtrl($scope, $http) {
   $scope.winner = null;
   
   $scope.decide = function(decision) {
-	  $scope.master= angular.copy(decision);
-	  $scope.code = null;
-	  $scope.data = null;
-	  $http.post("/v1/decide", $scope.master).
+	  $http.post("/v1/decide", decision).
 	  	success(function(data, status){
+	  		$scope.error = null;
 	  		$scope.data = data;
-	  		$scope.winner = data["Decision"];
 	  		$scope.status = status;
+	  		$scope.winner = data["Decision"];
 	  	}).
 	  error(function(data, status) {
-	  		$scope.data = data || "Request Failed";
+	  		$scope.error = data || "Request Failed";
 	  		$scope.status = status;
 	  });
   };
