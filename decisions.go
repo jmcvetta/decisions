@@ -62,6 +62,11 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	if dreq.Quandary == "" {
+		msg := "Must supply a quandary"
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
 	//
 	// Discard empty choices
 	//
