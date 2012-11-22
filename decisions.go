@@ -93,11 +93,17 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	// Save to Database
 	//
 	c := db.C("quandaries")
+	ip := req.Header.Get("HTTP_X_FORWARDED_FOR")
+	if ip != "" {
+		ip = strings.Split(ip, ",")[0]
+	} else {
+		ip = strings.Split(req.RemoteAddr, ":")[0]
+	}
 	d := Decision{
 		Quandary:  dreq.Quandary,
 		Choices:   validChoices,
 		Winner:    winner,
-		Ip:        strings.Split(req.RemoteAddr, ":")[0],
+		Ip:        ip,
 		Timestamp: time.Now(),
 	}
 	err = c.Insert(&d)
