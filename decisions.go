@@ -94,6 +94,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	//
 	c := db.C("quandaries")
 	ip := req.Header.Get("HTTP_X_FORWARDED_FOR")
+	log.Println(req.Header)
 	if ip != "" {
 		ip = strings.Split(ip, ",")[0]
 	} else {
