@@ -6,21 +6,15 @@ terms of the GPL v3.  See http://www.gnu.org/copyleft/gpl.html for details.
 
 <HTML ng-app="">
 <HEAD>
-  <META name="generator" content=
-  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
-  <LINK href=
-  "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css"
-  rel="stylesheet" type="text/css">
+  <META name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <LINK href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css">
   <LINK href="css/decisions.css" rel="stylesheet" type="text/css">
 
   <TITLE></TITLE>
 </HEAD>
 
 <BODY>
-  <A href="https://github.com/jmcvetta/decisions"><IMG style=
-  "position: absolute; top: 0; right: 0; border: 0;" src=
-  "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-  alt="Fork me on GitHub"></A>
+  <A href="https://github.com/jmcvetta/decisions"><IMG style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></A>
 
   <DIV class="container" ng-controller="DecisionCtrl">
     <DIV class="row">
@@ -28,37 +22,28 @@ terms of the GPL v3.  See http://www.gnu.org/copyleft/gpl.html for details.
         <DIV class="hero-unit">
           <H1>Decisions, decisions...</H1><BR>
 
-          <P>Need to make an important decision, but just can't
-          make up your mind?</P>
+          <P>Need to make an important decision, but just can't make up your mind?</P>
 
-          <P>Now, with the magic of a cryptographically secure
-          pseudorandom number generator<SUP><A href=
-          "http://golang.org/pkg/crypto/rand/">*</A></SUP>, this
-          website can make all your decisions for you!</P>
+          <P>Now, with the magic of a cryptographically secure pseudorandom number generator<SUP><A href="http://golang.org/pkg/crypto/rand/">*</A></SUP>, this website can make all your decisions for you!</P>
 
-          <P>Just describe your quandary, supply some possible
-          answers, and click <I>Decide!</I></P>
+          <P>Just describe your quandary, supply some possible answers, and click <I>Decide!</I></P>
         </DIV>
 
         <FORM novalidate="" class="form-horizontal">
           <DIV class="row">
-            <DIV class="span4 form-box">
+            <DIV class="span4">
               <DIV class="control-group">
-                <LABEL class="control-label" for=
-                "quandary">Quandary</LABEL>
+                <LABEL class="control-label" for="quandary">Quandary</LABEL>
 
                 <DIV class="controls">
-                  <TEXTAREA id="quandary" ng-model=
-                  "decision.quandary">
+                  <TEXTAREA id="quandary" ng-model="decision.quandary">
 </TEXTAREA>
                 </DIV>
               </DIV>
 
               <DIV ng-repeat="choice in decision.choices">
                 <DIV class="control-group">
-                  <LABEL class="control-label" for=
-                  "choice{{$index+1}}">Possible Solution {{ $index
-                  + 1 }}</LABEL>
+                  <LABEL class="control-label" for="choice{{$index+1}}">Possible Solution {{ $index + 1 }}</LABEL>
 
                   <DIV class="controls">
                     <INPUT type="text" ng-model="choice.text"><BR>
@@ -86,25 +71,19 @@ terms of the GPL v3.  See http://www.gnu.org/copyleft/gpl.html for details.
 
           <DIV class="row">
             <DIV class="span4 form-box">
-              <BUTTON ng-click="decide(decision)" class=
-              "btn btn-primary btn-large pull-right">Decide!</BUTTON>
+              <BUTTON ng-click="decide(decision)" class="btn btn-primary btn-large pull-right">Decide!</BUTTON>
             </DIV>
 
             <DIV class="span3 offset1">
-              <BUTTON ng-click="reset()" class=
-              "btn pull-right">Reset</BUTTON>
+              <BUTTON ng-click="reset()" class="btn pull-right">Reset</BUTTON>
             </DIV>
           </DIV>
         </FORM>
       </DIV>
-    </DIV><SCRIPT src=
-    "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"
-    type="text/javascript">
-</SCRIPT> <SCRIPT src=
-"//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"
-    type="text/javascript">
-</SCRIPT> <SCRIPT src="js/app.js" type="text/javascript">
+    </DIV>
+  </DIV><SCRIPT src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js" type="text/javascript">
+</SCRIPT><SCRIPT src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js" type="text/javascript">
+</SCRIPT><SCRIPT src="js/app.js" type="text/javascript">
 </SCRIPT>
-  </DIV>
 </BODY>
 </HTML>
