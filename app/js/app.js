@@ -35,12 +35,11 @@ function DecisionCtrl($scope, $http) {
 	  	success(function(data, status){
 	  		$scope.error = null;
 	  		$scope.data = data;
-	  		$scope.status = status;
 	  		$scope.winner = data["Decision"];
 	  	}).
 	  error(function(data, status) {
+		  	$scope.winner = null;
 	  		$scope.error = data || "Request Failed";
-	  		$scope.status = status;
 	  });
   };
 }
