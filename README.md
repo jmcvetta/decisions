@@ -26,3 +26,9 @@ $ cd $GOPATH/src/github.com/jmcvetta/decisions
 $ heroku create --buildpack git://github.com/kr/heroku-buildpack-go.git
 $ git push heroku master
 ```
+
+
+## License
+
+*decisions* is Free Software, licensed under the [GPL
+v3](http://www.gnu.org/copyleft/gpl.html).

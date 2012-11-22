@@ -1,3 +1,8 @@
+/*
+Copyright (c) 2012 Jason McVetta.  This is Free Software, released under the 
+terms of the GPL v3.  See http://www.gnu.org/copyleft/gpl.html for details.
+*/
+
 function DecisionCtrl($scope, $http) {
   $scope.master = {
 		  quandary: "",
