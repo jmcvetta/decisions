@@ -38,6 +38,7 @@ type Decision struct {
 	Winner    string
 	Ip        string
 	Timestamp time.Time
+	UserAgent string
 }
 
 // Decide receives a JSON payload containing several strings, and returns a JSON
@@ -105,6 +106,7 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		Winner:    winner,
 		Ip:        ip,
 		Timestamp: time.Now(),
+		UserAgent: req.UserAgent(),
 	}
 	err = c.Insert(&d)
 	if err != nil {
