@@ -71,10 +71,8 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 			validChoices = append(validChoices, choice.Text)
 		}
 	}
-	if len(validChoices) < 1 {
+	if len(validChoices) < 2 {
 		msg := fmt.Sprintln("Must provide at least 2 choices, but you provided", len(validChoices))
-		log.Println(msg)
-		// msg := "Must provide at least 2 choices"
 		http.Error(w, msg, http.StatusBadRequest)
 		return
 	}
