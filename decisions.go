@@ -147,7 +147,7 @@ func main() {
 	mux := pat.New()
 	mux.Post("/decide", http.HandlerFunc(Decide))
 	http.Handle("/v1/", http.StripPrefix("/v1", mux))
-	http.Handle("/", http.FileServer(http.Dir(pwd+"/angular/app")))
+	http.Handle("/", http.FileServer(http.Dir(pwd+"/app")))
 	//
 	// Start Webserver
 	//
