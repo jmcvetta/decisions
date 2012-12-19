@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/bmizerany/pat"
 	"github.com/darkhelmet/env"
+	"github.com/jmcvetta/neo4j"
 	"github.com/jmcvetta/randutil"
 	"io/ioutil"
 	"labix.org/v2/mgo"
@@ -17,7 +18,10 @@ import (
 	"time"
 )
 
-var db *mgo.Database
+var (
+	mongo *mgo.Database
+	neo   *neo4j.Database
+)
 
 type Choice struct {
 	Text string
@@ -91,9 +95,9 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//
-	// Save to Database
+	// Save to MongoDB
 	//
-	c := db.C("quandaries")
+	c := mongo.C("quandaries")
 	ip := req.Header.Get("X-Forwarded-For")
 	if ip != "" {
 		ip = strings.Split(ip, ",")[0]
@@ -115,6 +119,10 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//
+	// Save to Neo4j
+	//
+
+	//
 	// Generate response
 	//
 	dres := DecisionResponse{winner}
@@ -135,6 +143,7 @@ func main() {
 	port := env.StringDefault("PORT", "9000")
 	pwd := env.StringDefault("PWD", "/app")
 	mongoUrl := env.StringDefault("MONGOLAB_URI", "localhost")
+	neoUrl := env.StringDefault("NEO4J_URL", "localhost")
 	//
 	// Connect to MongoDB
 	//
@@ -144,10 +153,18 @@ func main() {
 		log.Panicln(err)
 	}
 	defer session.Close()
-	db = session.DB("")
-	_, err = db.CollectionNames()
+	mongo = session.DB("")
+	_, err = mongo.CollectionNames()
 	if err != nil && err.Error() == "db name can't be empty" {
-		db = session.DB("decisions")
+		mongo = session.DB("decisions")
+	}
+	//
+	// Connect to Neo4j
+	//
+	log.Println("Connecting to Neo4j on " + neoUrl + "...")
+	neo, err = neo4j.Connect(neoUrl)
+	if err != nil {
+		log.Panicln(err)
 	}
 	//
 	// Routing
