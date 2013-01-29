@@ -9,6 +9,7 @@ import (
 	"github.com/bmizerany/pat"
 	"github.com/darkhelmet/env"
 	"github.com/jmcvetta/randutil"
+	"github.com/stathat/go"
 	"io/ioutil"
 	"labix.org/v2/mgo"
 	"log"
@@ -17,7 +18,11 @@ import (
 	"time"
 )
 
-var db *mgo.Database
+var (
+	db         *mgo.Database
+	statPrefix string // Prefix for stat names to track on StatHat
+	ezkey      string // EZ Key for StatHat
+)
 
 type Choice struct {
 	Text string
@@ -127,6 +132,24 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 	w.Write(blob)
 }
 
+// timeTrack logs the time since start to StatHat.  
+// Inspired by: http://blog.stathat.com/2012/10/15/go_http_request_time.html
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	reqtimeName := statPrefix + ":reqtime:" + name
+	hitsName := statPrefix + ":hits:" + name
+	stathat.PostEZValue(reqtimeName, ezkey, elapsed.Seconds())
+	stathat.PostEZCountOne(hitsName, ezkey)
+}
+
+// track logs the time take by an HTTP request to StatHat
+func track(fn http.HandlerFunc, name string) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		defer timeTrack(time.Now(), name)
+		fn(w, req)
+	}
+}
+
 func main() {
 	log.SetFlags(log.Ltime | log.Lshortfile)
 	//
@@ -135,6 +158,8 @@ func main() {
 	port := env.StringDefault("PORT", "9000")
 	pwd := env.StringDefault("PWD", "/app")
 	mongoUrl := env.StringDefault("MONGOLAB_URI", "localhost")
+	statPrefix = env.StringDefault("STATHAT_PREFIX", "")
+	ezkey = env.StringDefault("STATHAT_EZKEY", "")
 	//
 	// Connect to MongoDB
 	//
@@ -146,14 +171,15 @@ func main() {
 	defer session.Close()
 	db = session.DB("")
 	_, err = db.CollectionNames()
-	if err != nil && err.Error() == "db name can't be empty" {
+	if err != nil {
+		log.Println("Setting db name to 'decisions'.")
 		db = session.DB("decisions")
 	}
 	//
 	// Routing
 	//
 	mux := pat.New()
-	mux.Post("/decide", http.HandlerFunc(Decide))
+	mux.Post("/decide", track(http.HandlerFunc(Decide), "/v1/decide"))
 	http.Handle("/v1/", http.StripPrefix("/v1", mux))
 	http.Handle("/", http.FileServer(http.Dir(pwd+"/app")))
 	//
