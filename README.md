@@ -16,6 +16,7 @@ $ cd $GOPATH
 $ go get github.com/jmcvetta/decisions
 ```
 
+The application depends upon MongoDB, and Neo4j for data collection is in the works.
 
 ## Deploy to Heroku
 
@@ -24,6 +25,8 @@ $ go get github.com/jmcvetta/decisions
 ```bash
 $ cd $GOPATH/src/github.com/jmcvetta/decisions
 $ heroku create --buildpack git://github.com/kr/heroku-buildpack-go.git
+$ heroku addons:add mongolab:starter
+$ heroku addons:add neo4j:try
 $ git push heroku master
 ```
 
