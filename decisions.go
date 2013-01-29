@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/bmizerany/pat"
 	"github.com/darkhelmet/env"
+	"github.com/jmcvetta/neo4j"
 	"github.com/jmcvetta/randutil"
 	"github.com/stathat/go"
 	"io/ioutil"
@@ -19,7 +20,8 @@ import (
 )
 
 var (
-	db         *mgo.Database
+	mongo      *mgo.Database
+	neo        *neo4j.Database
 	statPrefix string // Prefix for stat names to track on StatHat
 	ezkey      string // EZ Key for StatHat
 )
@@ -96,9 +98,9 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//
-	// Save to Database
+	// Save to MongoDB
 	//
-	c := db.C("quandaries")
+	c := mongo.C("quandaries")
 	ip := req.Header.Get("X-Forwarded-For")
 	if ip != "" {
 		ip = strings.Split(ip, ",")[0]
@@ -119,6 +121,10 @@ func Decide(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, msg, http.StatusInternalServerError)
 		return
 	}
+	//
+	// Save to Neo4j
+	//
+
 	//
 	// Generate response
 	//
@@ -158,6 +164,7 @@ func main() {
 	port := env.StringDefault("PORT", "9000")
 	pwd := env.StringDefault("PWD", "/app")
 	mongoUrl := env.StringDefault("MONGOLAB_URI", "localhost")
+	neoUrl := env.StringDefault("NEO4J_URL", "http://localhost:7474/db/data")
 	statPrefix = env.StringDefault("STATHAT_PREFIX", "")
 	ezkey = env.StringDefault("STATHAT_EZKEY", "")
 	//
@@ -169,11 +176,19 @@ func main() {
 		log.Panicln(err)
 	}
 	defer session.Close()
-	db = session.DB("")
-	_, err = db.CollectionNames()
+	mongo = session.DB("")
+	_, err = mongo.CollectionNames()
 	if err != nil {
 		log.Println("Setting db name to 'decisions'.")
-		db = session.DB("decisions")
+		mongo = session.DB("decisions")
+	}
+	//
+	// Connect to Neo4j
+	//
+	log.Println("Connecting to Neo4j on " + neoUrl + "...")
+	neo, err = neo4j.Connect(neoUrl)
+	if err != nil {
+		log.Panicln(err)
 	}
 	//
 	// Routing

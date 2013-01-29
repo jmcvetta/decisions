@@ -1,1 +1,1 @@
-web: bin/decisions
+web: decisions
