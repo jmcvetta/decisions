@@ -188,7 +188,8 @@ func main() {
 	log.Println("Connecting to Neo4j on " + neoUrl + "...")
 	neo, err = neo4j.Connect(neoUrl)
 	if err != nil {
-		log.Panicln(err)
+		log.Println("Cannot connect to Neo4j:")
+		log.Println(err)
 	}
 	//
 	// Routing
